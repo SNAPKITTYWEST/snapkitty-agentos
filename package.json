@@ -1,0 +1,34 @@
+{
+  "name": "snapkitty-agentos",
+  "version": "0.1.0",
+  "description": "SnapKitty Agent OS — agent-native repo memory, inverted skills, and P/NP swarm verification.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node .agentos/runtime/buildCheck.mjs",
+    "verify:all": "npm run verify:plasma && npm run verify:pnp && npm run verify:skills",
+    "verify:plasma": "node .agentos/runtime/plasmaVerify.mjs",
+    "verify:pnp": "node .agentos/runtime/pnpVerifier.mjs",
+    "verify:skills": "node .agentos/runtime/skillVerify.mjs",
+    "context:bootstrap": "node .agentos/runtime/contextBootstrap.mjs",
+    "gitbucket:extract": "node .agentos/gitbucket/extract.mjs",
+    "gitbucket:init": "node .agentos/gitbucket/init.mjs",
+    "pnp:claim": "node .agentos/runtime/pnpClient.mjs claim",
+    "pnp:seed": "node .agentos/pnp/seed.mjs",
+    "plasma:keygen": "node .agentos/plasma_gate/keygen.mjs",
+    "test": "node --test"
+  },
+  "keywords": [
+    "agent-native",
+    "pnp",
+    "swarm",
+    "worm",
+    "gitbucket",
+    "sovereign"
+  ],
+  "author": "Ahmad Ali Parr",
+  "license": "Apache-2.0"
+}

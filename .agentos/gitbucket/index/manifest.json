@@ -1,0 +1,14 @@
+{
+  "buckets": [],
+  "indexes": [
+    "file",
+    "entity",
+    "agent",
+    "topic",
+    "time",
+    "dependency",
+    "problemId"
+  ],
+  "initializedAt": "2026-07-03T10:11:47.325Z",
+  "schema": "gitbucket-v2"
+}

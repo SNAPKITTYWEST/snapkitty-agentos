@@ -1,0 +1,55 @@
+{
+  "problems": [
+    {
+      "claimedAt": null,
+      "claimedBy": null,
+      "difficulty": "NP-hard",
+      "id": "optimal_borrow_schedule_2026_Q3",
+      "reward": {
+        "type": "memory",
+        "value": "mem_005000"
+      },
+      "solutionRef": null,
+      "solvedAt": null,
+      "solvedBy": null,
+      "specHash": "sha256:a8d72e4f00000000000000000000000000000000000000000000000000000000",
+      "status": "open",
+      "title": "Optimal Borrow Chain Schedule",
+      "verifyFn": ".agentos/pnp/verifiers/optimal_borrow_schedule.mjs"
+    },
+    {
+      "claimedAt": null,
+      "claimedBy": null,
+      "difficulty": "NP-complete",
+      "id": "ledger_state_convergence_proof",
+      "reward": {
+        "type": "skill_unlock",
+        "value": "ledger_validation_v4"
+      },
+      "solutionRef": null,
+      "solvedAt": null,
+      "solvedBy": null,
+      "specHash": "sha256:19fd33a100000000000000000000000000000000000000000000000000000000",
+      "status": "open",
+      "title": "Ledger State Convergence Proof",
+      "verifyFn": ".agentos/pnp/verifiers/ledger_convergence.mjs"
+    },
+    {
+      "claimedAt": null,
+      "claimedBy": null,
+      "difficulty": "NP-hard",
+      "id": "skill_composition_min_cut",
+      "reward": {
+        "type": "new_problem_spawn",
+        "value": "cross_repo_skill_mesh"
+      },
+      "solutionRef": null,
+      "solvedAt": null,
+      "solvedBy": null,
+      "specHash": "sha256:44c0ffee00000000000000000000000000000000000000000000000000000000",
+      "status": "open",
+      "title": "Minimum-Cut Skill Composition",
+      "verifyFn": ".agentos/pnp/verifiers/skill_composition.mjs"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "snapkitty-agentos",
+  "version": "0.1.0",
+  "trustRoot": "Bifrost WORM Chain",
+  "auditId": "4b565498-9afc-4782-af4a-c6b11a5d0058",
+  "operator": "Ahmad Ali Parr",
+  "logicLayer": "deterministic-node-wasm-compatible",
+  "memoryProtocol": "gitbucket-v2",
+  "claimTtlMinutes": 240,
+  "universeSum": {
+    "base": 0,
+    "difficultyWeights": {
+      "P": 1,
+      "NP-hard": 8,
+      "NP-complete": 13
+    }
+  }
+}

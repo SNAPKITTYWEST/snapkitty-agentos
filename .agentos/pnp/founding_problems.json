@@ -1,0 +1,23 @@
+[
+  {
+    "id": "optimal_borrow_schedule_2026_Q3",
+    "naturalLanguageSpec": "Given a borrow dependency graph, produce an order where every lender dependency appears before the dependent borrow. Verification checks topological validity in polynomial time.",
+    "verifyFnSignature": "verify(problem: Problem, witness: { schedule: string[] }): boolean",
+    "difficulty": "NP-hard",
+    "reward": { "type": "memory", "value": "mem_005000" }
+  },
+  {
+    "id": "ledger_state_convergence_proof",
+    "naturalLanguageSpec": "Given signed ledger transitions, prove that the terminal state is reachable from genesis without violating balance conservation.",
+    "verifyFnSignature": "verify(problem: Problem, witness: { transitions: Transition[], terminalState: object }): boolean",
+    "difficulty": "NP-complete",
+    "reward": { "type": "skill_unlock", "value": "ledger_validation_v4" }
+  },
+  {
+    "id": "skill_composition_min_cut",
+    "naturalLanguageSpec": "Find the lowest-cost composition of sealed skills that satisfies required capabilities while respecting dependency constraints.",
+    "verifyFnSignature": "verify(problem: Problem, witness: { selectedSkills: string[], cost: number }): boolean",
+    "difficulty": "NP-hard",
+    "reward": { "type": "new_problem_spawn", "value": "cross_repo_skill_mesh" }
+  }
+]

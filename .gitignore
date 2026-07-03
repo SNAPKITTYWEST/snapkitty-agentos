@@ -1,0 +1,15 @@
+.agentos/gitbucket/buckets/*.json
+.agentos/gitbucket/seals/*.json
+.agentos/gitbucket/index/context.json
+.agentos/pnp/claim_ledger.jsonl
+.agentos/pnp/convergence_log.jsonl
+.agentos/pnp/verified_solutions.jsonl
+.agentos/pnp/verification_report.json
+.agentos/pnp/solution_pool/**/solution_*.json
+.agentos/memory/INDEX.md
+.agentos/plasma_gate/private_key.pem
+.agentos/runtime/auditLog.jsonl
+node_modules/
+dist/
+coverage/
+*.log
