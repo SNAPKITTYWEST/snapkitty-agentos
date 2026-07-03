@@ -302,3 +302,289 @@ git push -u origin main
 ## 9. Next Concrete Step
 
 **You asked me to integrate the plan and add meta data into the spec, and build out the new repo.** I'll now work on the directory layout and files.
+
+## 10. APL Fortran Module
+
+**Status:** implemented as a verified source package; native C compilation is gated behind a Visual Studio developer shell.
+
+The APL Fortran module provides Windows-compatible C bindings for the APL-to-Fortran compilation system. It enables APL expressions to be compiled and executed in Fortran runtime with full array operations, optimization passes, and cross-platform deployment.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 APL Fortran C Bindings                      │
+│                 (Windows Native)                            │
+├─────────────────────────────────────────────────────────────┤
+│              APL Expression Parser                          │
+│                 • AST Construction                           │
+│                 • Semantic Analysis                          │
+├─────────────────────────────────────────────────────────────┤
+│                APL Array Engine                              │
+│                 • Array Operations                           │
+│                 • Memory Management                         │
+│                 • Array Manipulation                        │
+├─────────────────────────────────────────────────────────────┤
+│              APL Fortran Backend                             │
+│                 • Fortran Code Generation                   │
+│                 • Optimization Pipeline                      │
+│                 • Compilation & Linking                      │
+├─────────────────────────────────────────────────────────────┤
+│                    Fortran Runtime                            │
+│                 • BLAS/LAPACK Integration                    │
+│                 • Parallel Processing                        │
+│                 • Array Computations                        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Core Components
+
+#### 10.1 Core Runtime (`.agentos/runtime/apfortran.c`)
+- Windows-native C bindings with API compatibility
+- Memory management and threading utilities
+- Error handling and platform abstractions
+- Initialization and cleanup routines
+
+#### 10.2 Expression Engine (`.agentos/runtime/apfortran_expr.c`)
+- APL parser and AST construction (Expression types: LITERALS, BINARY, UNARY, ARRAY, SCALAR, ATOM, CALL, NOFREE)
+- Expression evaluation and manipulation
+- Ref-counted memory management
+- Support for APL's array-oriented operations
+
+#### 10.3 Array Engine (`.agentos/runtime/apfortran_array.c`)
+- APL array operations (shape, dtype, memory management)
+- Array iteration and transformation (vectorization, parallelization)
+- Integration with Fortran runtime
+- Cache-optimized array processing
+
+#### 10.4 Fortran Backend (`.agentos/runtime/apfortran_fortran.c`)
+- Fortran code generation from APL expressions
+- Optimization pipeline (vectorization, fusion, tiling)
+- Cross-platform compilation (Windows x64 native)
+- Integration with BLAS/LAPACK
+
+#### 10.5 Build System (`CMakeLists.txt`)
+- Windows Visual Studio 2022 support
+- CMake configuration for Windows native builds
+- Cross-platform compilation support
+- Installation and packaging
+
+### Windows-Specific Features
+
+#### Native Windows Integration
+- Windows API integration via C bindings
+- Win32 file I/O with UTF-8 support
+- Windows threading primitives
+- Memory allocation aligned for Fortran performance
+- Compiler optimizations for Windows x64
+
+#### API Compatibility
+```c
+// Windows-native APL Fortran API
+APL_API apl_error_t APL_CDECL apl_init(const apl_compiler_options_t* options);
+APL_API apl_error_t APL_CDECL apl_compile(apl_expr_t* expr, apl_fortran_backend_t** backend);
+APL_API apl_error_t APL_CDECL apl_execute(apl_fortran_backend_t* backend, apl_array_t* input, apl_array_t** output);
+APL_API apl_error_t APL_CDECL apl_evaluate(const char* expression, apl_array_t** result);
+```
+
+#### Performance Optimization Targets
+- SIMD vectorization hooks (SSE/AVX)
+- Windows native threading hooks
+- Cache-friendly tiling and blocking hooks
+- Compiler optimization configuration (Release/RelWithDebInfo)
+
+### Integration with SnapKitty Agent OS
+
+#### P/NP Swarm Integration
+- APL Fortran backend for NP-hard problems involving array operations
+- Matrix algebra and numerical computing for optimal scheduling
+- Integration with `gitbucket:extract` for memory buckets
+- Context compilation with `context:compile`
+
+#### Workflow Integration
+
+```bash
+# Bootstrap APL Fortran components
+npm run verify:all  # Verify: Plasma Gate, P/NP Proofs, Skills, APL Fortran
+npm run context:bootstrap  # Load GitBucket memories
+
+# Process APL Fortran problems
+npm run pnp:claim optimal_borrow_schedule_2026_Q3
+
+# Verify compilation artifacts
+cmake --build build --config Release
+./aplfortran_test
+```
+
+### Runtime Architecture
+
+#### Memory Management
+- Ref-counted AST and array nodes
+- Win32 aligned memory allocation
+- Thread-safe array operations
+- Memory leak detection and debugging
+
+#### Execution Pipeline
+1. **Parse** APL expression into AST
+2. **Generate** array-based IR
+3. **Optimize** with Win32-aware passes
+4. **Compile** to native Fortran
+5. **Execute** with BLAS/LAPACK acceleration
+
+### Windows Build Instructions
+
+#### Visual Studio Build
+```cmd
+# Navigate to snapkitty-agentos
+cd C:\Users\jessi\IdeaProjects\SNAPKITTYWEST\snapkitty-agentos
+
+# Configure with Visual Studio 2022
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+# Build Release configuration
+cmake --build build --config Release
+
+# Run tests
+ctest --test-dir build -C Release
+```
+
+#### CMake Build
+```bash
+# Create build directory
+mkdir build && cd build
+
+# Configure for Windows
+cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+
+# Build
+cmake --build .
+
+# Install to local prefix
+cmake --install . --prefix ./install
+```
+
+### API Documentation
+
+#### Core Functions
+```c
+// Initialization and lifecycle management
+apl_error_t apl_init(const apl_compiler_options_t* options);
+apl_error_t apl_cleanup(void);
+
+// Expression handling
+apl_error_t apl_parse(const char* source, apl_expr_t** expr);
+apl_error_t apl_free_expr(apl_expr_t* expr);
+apl_error_t apl_evaluate(const char* expression, apl_array_t** result);
+
+// Array operations
+apl_array_t* apl_array_create(int rank, const int64_t* shape, const char* dtype, size_t element_size, void* data);
+apl_error_t apl_array_apply_to_all(apl_array_t* arr, apl_array_element_op op, void* context);
+
+// Fortran backend
+apl_error_t apl_compile(apl_expr_t* expr, apl_fortran_backend_t** backend);
+apl_error_t apl_execute(apl_fortran_backend_t* backend, apl_array_t* input, apl_array_t** output);
+apl_error_t apl_generate_f90(apl_fortran_backend_t* backend, const char* output_file);
+
+// Optimization
+apl_error_t apl_configure_backend(apl_fortran_backend_t* backend, apl_compiler_options_t* options);
+```
+
+#### Data Structures
+```c
+// APL expression AST
+typedef enum { APL_EXPR_LITERAL, APL_EXPR_BINARY, APL_EXPR_UNARY, APL_EXPR_ARRAY, APL_EXPR_SCALAR, APL_EXPR_ATOM, APL_EXPR_CALL } AplExprType;
+
+struct apl_expr_t {
+    AplExprType type;
+    int ref_count;
+    union { /* Expression-specific data */ } u;
+};
+
+// APL array container
+struct apl_array_t {
+    int rank;
+    int64_t shape[APL_MAX_RANK];
+    char dtype[32];
+    size_t element_size;
+    size_t total_elements;
+    int64_t strides[APL_MAX_RANK];
+    void* data;
+    // Additional metadata and ref counting
+};
+```
+
+### Performance Characteristics
+
+#### Verification Results
+```text
+npm test                 -> AgentOS JS verification suite
+npm run verify:all       -> Plasma Gate + P/NP + skills + APL/Fortran source package
+npm run test:aplfortran  -> Windows source-package and environment checks
+```
+
+Native C compilation requires Visual Studio Build Tools or a Visual Studio
+developer shell. The checked-in verifier does not claim native BLAS performance
+until that build path is run.
+
+#### Optimization Features
+- SIMD vectorization (SSE/AVX)
+- Loop fusion and tiling
+- Parallel execution (OpenMP)
+- Memory prefetch optimization
+- Cache-aware data layout
+
+### Testing
+
+#### Test Suite
+```bash
+# Run all tests
+npm test
+
+# Test APL Fortran source package
+npm run test:aplfortran
+
+# Verify all AgentOS gates
+npm run verify:all
+```
+
+### Troubleshooting
+
+#### Common Issues
+1. **Windows Linking Errors**
+   ```
+   Symptom: LINK : fatal error LNK2019: unresolved external symbol _main
+   Solution: Ensure main entry point in Windows test executable
+   ```
+
+2. **Memory Alignment Issues**
+   ```
+   Symptom: Performance degradation on Windows
+   Solution: Use Win32 aligned alloc: apl_win32_aligned_alloc(64, size)
+   ```
+
+3. **Fortran Compiler Integration**
+   ```
+   Symptom: APL_ERROR_F90 during compilation
+   Solution: Ensure Fortran compiler is installed (MSVC Intel Fortran)
+   ```
+
+#### Debugging
+
+Enable Windows debugging:
+```c
+// Enable verbose debugging for Windows
+apl_compiler_options_t opts = {0};
+opts.enable_vectorization = true;
+opts.enable_fusion = true;
+opts.verbose = true;
+
+apl_init(&opts);
+
+// Enable memory leak detection
+#ifdef _WIN32
+apl_memory_dump("windows_memory_leak.log");
+#endif
+```
+
+### License
+Apache 2.0

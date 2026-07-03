@@ -1,4 +1,6 @@
 {
+  "auditId": "4b565498-9afc-4782-af4a-c6b11a5d0058",
+  "memoryProtocol": "gitbucket-v2",
   "version": "2",
   "trustPolicy": {
     "minTrustLevel": "pending",

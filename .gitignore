@@ -13,4 +13,11 @@
 node_modules/
 dist/
 coverage/
+build/
+build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.ninja
+.ninja_*
 *.log

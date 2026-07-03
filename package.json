@@ -9,10 +9,14 @@
   },
   "scripts": {
     "build": "node .agentos/runtime/buildCheck.mjs",
-    "verify:all": "npm run verify:plasma && npm run verify:pnp && npm run verify:skills",
+    "build:windows": "cmake --build build --config Release",
+    "build:all": "npm run build && npm run build:windows",
+    "clean": "node .agentos/runtime/clean.mjs",
+    "verify:all": "npm run verify:plasma && npm run verify:pnp && npm run verify:skills && node .agentos/runtime/apfortranVerify.mjs",
     "verify:plasma": "node .agentos/runtime/plasmaVerify.mjs",
     "verify:pnp": "node .agentos/runtime/pnpVerifier.mjs",
     "verify:skills": "node .agentos/runtime/skillVerify.mjs",
+    "verify:aplfortran": "node .agentos/runtime/apfortranVerify.mjs",
     "context:bootstrap": "node .agentos/runtime/contextBootstrap.mjs",
     "context:compile": "node .agentos/runtime/contextCompiler.mjs",
     "context:verify": "node .agentos/runtime/contextVerifier.mjs",
@@ -21,7 +25,12 @@
     "pnp:claim": "node .agentos/runtime/pnpClient.mjs claim",
     "pnp:seed": "node .agentos/pnp/seed.mjs",
     "plasma:keygen": "node .agentos/plasma_gate/keygen.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "test:aplfortran": "node .agentos/runtime/aplfortranTest.mjs",
+    "windows:build": "cmake -S . -B build -G \"Visual Studio 17 2022\" -A x64 && npm run build:windows",
+    "windows:test": "cmake --build build --target test && ctest --test-dir build -C Release",
+    "windows:verify": "node .agentos/runtime/verifyWindows.mjs",
+    "apfortran:verify": "node .agentos/runtime/apfortranVerify.mjs"
   },
   "keywords": [
     "agent-native",
