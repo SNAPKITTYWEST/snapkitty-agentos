@@ -1,6 +1,7 @@
 .agentos/gitbucket/buckets/*.json
 .agentos/gitbucket/seals/*.json
 .agentos/gitbucket/index/context.json
+.agentos/context/clips/
 .agentos/pnp/claim_ledger.jsonl
 .agentos/pnp/convergence_log.jsonl
 .agentos/pnp/verified_solutions.jsonl

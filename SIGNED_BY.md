@@ -10,6 +10,7 @@
   - `npm run verify:all`
   - `npm run build`
   - `npm run context:bootstrap`
+  - `npm run context:compile`
 - Date: 2026-07-03
 
 Seal phrase:

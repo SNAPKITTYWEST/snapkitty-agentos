@@ -1,18 +1,30 @@
 {
-  "name": "snapkitty-agentos",
-  "version": "0.1.0",
-  "trustRoot": "Bifrost WORM Chain",
-  "auditId": "4b565498-9afc-4782-af4a-c6b11a5d0058",
-  "operator": "Ahmad Ali Parr",
-  "logicLayer": "deterministic-node-wasm-compatible",
-  "memoryProtocol": "gitbucket-v2",
-  "claimTtlMinutes": 240,
-  "universeSum": {
-    "base": 0,
+  "version": "2",
+  "trustPolicy": {
+    "minTrustLevel": "pending",
+    "allowedSigners": ["SnapKitty"],
+    "rejectUnsealed": true
+  },
+  "gitbucket": {
+    "extractorsVersion": "v2",
+    "maxCommitDepth": 10000,
+    "indexDimensions": ["file", "entity", "agent", "topic", "time", "dependency", "problemId"]
+  },
+  "plasmaGate": {
+    "algorithm": "Ed25519",
+    "verifyWasmPath": ".agentos/plasma_gate/verify.wasm"
+  },
+  "pnp": {
+    "claimTimeoutHours": 4,
+    "maxConcurrentClaims": 3,
     "difficultyWeights": {
-      "P": 1,
-      "NP-hard": 8,
-      "NP-complete": 13
+      "NP-hard": 1.0,
+      "NP-complete": 0.8,
+      "P": 0.1
     }
+  },
+  "skills": {
+    "artifactPath": ".agentos/skills/artifacts",
+    "registryPath": ".agentos/skills/registry.json"
   }
 }

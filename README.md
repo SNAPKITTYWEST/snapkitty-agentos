@@ -29,7 +29,40 @@ README for humans
 AGENTS.md for agents
 tests for truth
 WORM signatures for memory
+ContextClip for compiled agent context
 ```
+
+## ContextClip
+
+The context window is treated as a compilation target, not a buffer. Agent OS
+pre-compiles a `ContextClip` from GitBucket memories, P/NP proof scaffolding,
+skill contracts, runtime directives, and token budgets.
+
+```bash
+npm run context:compile -- --agent agent_0x9b2c --problem optimal_borrow_schedule_2026_Q3
+npm run context:verify -- .agentos/context/clips/<clip_id>.json
+```
+
+Each clip contains:
+
+- problem spec
+- relevant memories
+- skill contracts
+- proof scaffolding
+- runtime directives
+- token budget report
+- provenance
+- Plasma Gate seal
+
+Production signing:
+
+```bash
+npm run plasma:keygen
+npm run context:compile -- --agent agent_prod --problem optimal_borrow_schedule_2026_Q3
+```
+
+Without keys, the compiler emits an explicit `bootstrap-sha256` seal so clone-clean
+tests remain deterministic. With keys, it emits an Ed25519 signature.
 
 ## Architecture
 
@@ -38,6 +71,7 @@ agent clones repo
   -> reads AGENTS.md
   -> runs verify:all
   -> bootstraps GitBucket memory index
+  -> compiles ContextClip
   -> reads P/NP problem registry
   -> claims problem
   -> submits witness
@@ -62,4 +96,3 @@ No agent is coordinated through chat memory. Context must live in the repo:
 - append-only ledgers
 - sealed memory buckets
 - reproducible tests
-

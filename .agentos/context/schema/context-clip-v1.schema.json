@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://snapkitty.os/schema/context-clip-v1.json",
+  "title": "ContextClip v1",
+  "type": "object",
+  "required": [
+    "$schema",
+    "clip_id",
+    "version",
+    "issued_at",
+    "issued_by",
+    "agent_id",
+    "task_spec",
+    "budget",
+    "sections",
+    "seal",
+    "provenance"
+  ],
+  "properties": {
+    "$schema": { "const": "https://snapkitty.os/schema/context-clip-v1.json" },
+    "clip_id": { "type": "string", "pattern": "^clip_" },
+    "version": { "const": 1 },
+    "issued_at": { "type": "string" },
+    "issued_by": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "task_spec": {
+      "type": "object",
+      "required": ["type", "problem_id"],
+      "properties": {
+        "type": { "type": "string" },
+        "problem_id": { "type": "string" },
+        "claim_nonce": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "budget": {
+      "type": "object",
+      "required": ["max_tokens", "allocated", "actual_tokens"],
+      "properties": {
+        "max_tokens": { "type": "integer", "minimum": 1 },
+        "allocated": { "type": "object" },
+        "actual_tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "priority", "content", "source_refs", "token_count", "verified"],
+        "properties": {
+          "name": { "type": "string" },
+          "priority": { "enum": ["critical", "high", "medium", "low"] },
+          "content": {},
+          "source_refs": { "type": "array", "items": { "type": "string" } },
+          "token_count": { "type": "integer", "minimum": 0 },
+          "verified": { "type": "boolean" }
+        }
+      }
+    },
+    "seal": {
+      "type": "object",
+      "required": ["algorithm", "signature", "signer", "public_key", "audit_ref"],
+      "properties": {
+        "algorithm": { "type": "string" },
+        "signature": { "type": "string" },
+        "signer": { "type": "string" },
+        "public_key": { "type": "string" },
+        "audit_ref": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["gitbucket_index_hash", "compiler_version", "compilation_trace_id"],
+      "properties": {
+        "gitbucket_index_hash": { "type": "string", "pattern": "^sha256:" },
+        "compiler_version": { "type": "string" },
+        "compilation_trace_id": { "type": "string", "pattern": "^trace_" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

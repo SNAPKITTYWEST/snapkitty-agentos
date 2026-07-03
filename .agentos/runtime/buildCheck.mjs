@@ -6,6 +6,9 @@ const required = [
   ".agentos/config.json",
   ".agentos/skills/registry.json",
   ".agentos/pnp/problem_registry.json",
+  ".agentos/context/schema/context-clip-v1.schema.json",
+  ".agentos/runtime/contextCompiler.mjs",
+  ".agentos/runtime/contextVerifier.mjs",
   ".agentos/runtime/core.mjs"
 ];
 

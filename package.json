@@ -14,6 +14,8 @@
     "verify:pnp": "node .agentos/runtime/pnpVerifier.mjs",
     "verify:skills": "node .agentos/runtime/skillVerify.mjs",
     "context:bootstrap": "node .agentos/runtime/contextBootstrap.mjs",
+    "context:compile": "node .agentos/runtime/contextCompiler.mjs",
+    "context:verify": "node .agentos/runtime/contextVerifier.mjs",
     "gitbucket:extract": "node .agentos/gitbucket/extract.mjs",
     "gitbucket:init": "node .agentos/gitbucket/init.mjs",
     "pnp:claim": "node .agentos/runtime/pnpClient.mjs claim",

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://snapkitty.os/schema/context-clip-v1.json",
+  "clip_id": "clip_example",
+  "version": 1,
+  "issued_at": "2026-07-03T00:00:00.000Z",
+  "issued_by": "gitbucket_context_compiler_v2.1.0",
+  "agent_id": "agent_example",
+  "task_spec": {
+    "type": "pnp_solve",
+    "problem_id": "optimal_borrow_schedule_2026_Q3",
+    "claim_nonce": "nonce_example"
+  },
+  "budget": {
+    "max_tokens": 8192,
+    "allocated": {
+      "problem_spec": 1024,
+      "relevant_memories": 4096,
+      "skill_contracts": 1536,
+      "proof_scaffolding": 1024,
+      "runtime_directives": 535,
+      "reserved": 512
+    },
+    "actual_tokens": 0
+  },
+  "sections": [],
+  "seal": {
+    "algorithm": "bootstrap-sha256",
+    "signature": "sha256:example",
+    "signer": "plasma_gate_compiler",
+    "public_key": "bootstrap-no-key",
+    "audit_ref": "4b565498-9afc-4782-af4a-c6b11a5d0058"
+  },
+  "provenance": {
+    "gitbucket_index_hash": "sha256:example",
+    "compiler_version": "gitbucket_context_compiler_v2.1.0",
+    "compilation_trace_id": "trace_example"
+  }
+}

@@ -5,6 +5,8 @@ import { verifyPlasmaGate } from "../.agentos/runtime/plasmaVerify.mjs";
 import { verifySkills } from "../.agentos/runtime/skillVerify.mjs";
 import { verifyProblemSolution } from "../.agentos/runtime/pnpVerifier.mjs";
 import { loadSkill } from "../.agentos/runtime/skillLoader.mjs";
+import { compileContextClip } from "../.agentos/runtime/contextCompiler.mjs";
+import { verifyContextClip } from "../.agentos/runtime/contextVerifier.mjs";
 
 test("stableStringify is deterministic across key order", () => {
   assert.equal(stableStringify({ b: 2, a: 1 }), stableStringify({ a: 1, b: 2 }));
@@ -55,4 +57,18 @@ test("P/NP verifier accepts a valid borrow witness", async () => {
   };
   const result = await verifyProblemSolution(problem, { witness: { schedule: ["A", "B", "C"] } });
   assert.equal(result.ok, true);
+});
+
+test("ContextClip compiles with runtime directives and verifies seal", () => {
+  const clip = compileContextClip({
+    agentId: "agent_test",
+    problemId: "optimal_borrow_schedule_2026_Q3",
+    claimNonce: "nonce_test",
+    clipId: "clip_test"
+  });
+  assert.equal(clip.clip_id, "clip_test");
+  assert.equal(clip.$schema, "https://snapkitty.os/schema/context-clip-v1.json");
+  assert.equal(clip.sections.some((section) => section.name === "runtime_directives"), true);
+  assert.equal(clip.sections.every((section) => section.verified), true);
+  assert.equal(verifyContextClip(clip).ok, true);
 });
