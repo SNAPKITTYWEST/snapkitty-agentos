@@ -29,6 +29,25 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write([]byte(`{"status":"running"}`))
 		})
+
+		// Ollama models catalog endpoint (canonical)
+		http.HandleFunc("/v1/ollama/models", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(`{"models":["llama2","mistral","phi","gemma"]}`))
+		})
+
+		// Ollama endpoint misspelling for backward compatibility
+		http.HandleFunc("/v1/olalma/models", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(`{"models":["llama2","mistral","phi","gemma"]}`))
+		})
+
+		// VLLM models catalog endpoint
+		http.HandleFunc("/v1/vllm/models", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(`{"models":["vllm-phi","vllm-llama","vllm-mistral"]}`))
+		})
+
 		sock := "/run/user/1000/snapkitty.sock"
 		for i, arg := range os.Args {
 			if arg == "--socket" && i+1 < len(os.Args) {
@@ -37,7 +56,13 @@ func main() {
 		}
 		fmt.Printf("Mock server listening on unix socket: %s\n", sock)
 		os.Remove(sock)
-		listener, err := net.Listen("unix", sock)
+		// Start HTTP server on localhost for easy demo access
+		go func() {
+			if err := http.ListenAndServe(":8080", nil); err != nil {
+				fmt.Printf("HTTP server error: %v\n", err)
+			}
+		}()
+
 		if err != nil {
 			fmt.Printf("Failed to listen: %v\n", err)
 			select {} // block forever

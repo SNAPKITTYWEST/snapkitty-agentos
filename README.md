@@ -97,6 +97,10 @@ agent clones repo
 - `npm run pnp:claim` — claims the first open problem for an agent.
 - `npm run gitbucket:extract` — turns the latest Git state into a memory bucket.
 
+## Demo
+
+- The front‑end demo is hosted via GitHub Pages at https://snapkittywest.github.io/snapkitty-agentos/. It visualizes the API graph and lets users explore Ollama and VLLM model listings.
+
 ## Repository Law
 
 No agent is coordinated through chat memory. Context must live in the repo:

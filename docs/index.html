@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" style="font-family: 'Inter', sans-serif; background: #0d1117; color: #c9d1d9;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnapKitty AgentOS API Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { margin:0; display:flex; flex-direction:column; height:100vh; }
+    header { padding:1rem; background:#161b22; text-align:center; font-size:1.5rem; font-weight:600; }
+    #graph { flex:1; }
+    .node { cursor:pointer; }
+    .tooltip { position:absolute; background:#21262d; padding:0.5rem 1rem; border-radius:4px; pointer-events:none; opacity:0; transition:opacity 0.2s; }
+    button { margin-top:0.5rem; padding:0.4rem 0.8rem; background:#238636; border:none; border-radius:4px; color:#fff; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <header>SnapKitty AgentOS API Graph Demo</header>
+  <svg id="graph"></svg>
+  <div class="tooltip" id="tooltip"></div>
+  <script>
+    const data = {
+      nodes: [
+        { id: "/v1/daemon/status", label: "Daemon Status" },
+        { id: "/v1/daemon/info", label: "Daemon Info" },
+        { id: "/v1/health", label: "Health" },
+        { id: "/v1/version", label: "Version" },
+        { id: "/v1/agents", label: "Agents" },
+        { id: "/v1/ollama/models", label: "Ollama Models" },
+        { id: "/v1/vllm/models", label: "VLLM Models" },
+        { id: "/v1/artifact/sign", label: "Artifact Sign" }
+      ],
+      links: [
+        { source: "/v1/daemon/status", target: "/v1/daemon/info" },
+        { source: "/v1/daemon/status", target: "/v1/health" },
+        { source: "/v1/daemon/status", target: "/v1/version" },
+        { source: "/v1/daemon/status", target: "/v1/agents" },
+        { source: "/v1/daemon/status", target: "/v1/ollama/models" },
+        { source: "/v1/daemon/status", target: "/v1/vllm/models" },
+        { source: "/v1/daemon/status", target: "/v1/artifact/sign" }
+      ]
+    };
+    const svg = d3.select('#graph');
+    const width = window.innerWidth;
+    const height = window.innerHeight - 60;
+    svg.attr('width', width).attr('height', height);
+    const simulation = d3.forceSimulation(data.nodes)
+      .force('link', d3.forceLink(data.links).id(d => d.id).distance(150))
+      .force('charge', d3.forceManyBody().strength(-400))
+      .force('center', d3.forceCenter(width/2, height/2));
+    const link = svg.append('g')
+      .attr('stroke', '#8b949e')
+      .selectAll('line')
+      .data(data.links)
+      .enter().append('line');
+    	const node = svg.append('g')
+	  .attr('stroke', '#fff')
+	  .attr('stroke-width', 1.5)
+	  .selectAll('circle')
+	  .data(data.nodes)
+	  .enter().append('circle')
+	  .attr('r', 20)
+	  .attr('fill', '#238636')
+	  .attr('class', 'node');
+
+	const label = svg.append('g')
+	  .selectAll('text')
+	  .data(data.nodes)
+	  .enter().append('text')
+	  .attr('text-anchor', 'middle')
+	  .attr('dy', '.35em')
+	  .attr('fill', '#c9d1d9')
+	  .text(d => d.label);
+
+	const tooltip = d3.select('#tooltip');
+	const mockData = {
+	  '/v1/daemon/status': '{"status":"running"}',
+	  '/v1/daemon/info': '{"info":"Daemon info placeholder"}',
+	  '/v1/health': '{"status":"healthy"}',
+	  '/v1/version': '{"version":"1.0.0"}',
+	  '/v1/agents': '{"agents":["agent1","agent2"]}',
+	  '/v1/ollama/models': '{"models":["llama2","mistral","phi","gemma","dolphin-mixtral","starcoder"]}',
+	  '/v1/vllm/models': '{"models":["vllm-phi","vllm-llama","vllm-mistral","vllm-mixtral"]}',
+	  '/v1/artifact/sign': '{"status":"signed"}'
+	};
+
+	node.on('click', async (event, d) => {
+	  tooltip.style('opacity', 0);
+	  try {
+	    const responseText = mockData[d.id] ?? 'No mock data';
+	    tooltip.html(`<strong>${d.id}</strong><pre>${responseText}</pre>`)
+	      .style('left', (event.pageX+10)+'px')
+	      .style('top', (event.pageY+10)+'px')
+	      .transition().duration(200).style('opacity', 0.9);
+	  } catch (e) {
+	    tooltip.html('Error')
+	      .style('left', (event.pageX+10)+'px')
+	      .style('top', (event.pageY+10)+'px')
+	      .transition().duration(200).style('opacity', 0.9);
+	  }
+	});  
+    simulation.on('tick', () => {
+      link.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+      node.attr('cx', d => d.x).attr('cy', d => d.y);
+      label.attr('x', d => d.x).attr('y', d => d.y);
+    });
+    window.addEventListener('resize', () => location.reload());
+  </script>
+</body>
+</html>
