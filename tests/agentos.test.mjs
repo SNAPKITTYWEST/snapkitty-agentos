@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { sha256, stableStringify, seal } from "../.agentos/runtime/core.mjs";
 import { verifyPlasmaGate } from "../.agentos/runtime/plasmaVerify.mjs";
 import { verifySkills } from "../.agentos/runtime/skillVerify.mjs";
@@ -71,4 +72,9 @@ test("ContextClip compiles with runtime directives and verifies seal", () => {
   assert.equal(clip.sections.some((section) => section.name === "runtime_directives"), true);
   assert.equal(clip.sections.every((section) => section.verified), true);
   assert.equal(verifyContextClip(clip).ok, true);
+});
+
+test("Nix Sovereign layout presence and Prolog BOM verification", () => {
+  assert.equal(existsSync("flake.nix"), true);
+  assert.equal(existsSync("policies/snapkitty_bom.pl"), true);
 });

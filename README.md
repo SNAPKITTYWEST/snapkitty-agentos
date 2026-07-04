@@ -14,6 +14,16 @@ npm run verify:all
 npm run context:bootstrap
 ```
 
+Nix Sovereign Dev Shell & Packaging:
+
+```bash
+# Enter the Sovereign dev shell
+nix develop .#default --impure
+
+# Build the Meta-GitBash Distribution
+nix build .#snapkitty-installer --impure
+```
+
 Optional first-time setup:
 
 ```bash

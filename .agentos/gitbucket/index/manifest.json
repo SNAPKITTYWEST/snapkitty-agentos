@@ -1,5 +1,7 @@
 {
-  "buckets": [],
+  "buckets": [
+    "mem_a0d85cf200ea"
+  ],
   "indexes": [
     "file",
     "entity",
@@ -9,6 +11,6 @@
     "dependency",
     "problemId"
   ],
-  "initializedAt": "2026-07-03T10:11:47.325Z",
+  "initializedAt": "2026-07-04T03:47:01.062Z",
   "schema": "gitbucket-v2"
 }

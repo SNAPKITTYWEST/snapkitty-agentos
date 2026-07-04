@@ -1,8 +1,8 @@
 {
   "problems": [
     {
-      "claimedAt": null,
-      "claimedBy": null,
+      "claimedAt": "2026-07-04T03:47:50.710Z",
+      "claimedBy": "agent_66d7f789b3fbf202",
       "difficulty": "NP-hard",
       "id": "optimal_borrow_schedule_2026_Q3",
       "reward": {
@@ -13,7 +13,7 @@
       "solvedAt": null,
       "solvedBy": null,
       "specHash": "sha256:a8d72e4f00000000000000000000000000000000000000000000000000000000",
-      "status": "open",
+      "status": "claimed",
       "title": "Optimal Borrow Chain Schedule",
       "verifyFn": ".agentos/pnp/verifiers/optimal_borrow_schedule.mjs"
     },
