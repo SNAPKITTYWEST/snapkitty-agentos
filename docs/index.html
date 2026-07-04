@@ -29,7 +29,10 @@
         { id: "/v1/agents", label: "Agents" },
         { id: "/v1/ollama/models", label: "Ollama Models" },
         { id: "/v1/vllm/models", label: "VLLM Models" },
-        { id: "/v1/artifact/sign", label: "Artifact Sign" }
+        { id: "/v1/artifact/sign", label: "Artifact Sign" },
+        { id: "/v1/tasks", label: "Tasks" },
+        { id: "/v1/jobs", label: "Jobs" },
+        { id: "/v1/config", label: "Config" }
       ],
       links: [
         { source: "/v1/daemon/status", target: "/v1/daemon/info" },
@@ -38,7 +41,10 @@
         { source: "/v1/daemon/status", target: "/v1/agents" },
         { source: "/v1/daemon/status", target: "/v1/ollama/models" },
         { source: "/v1/daemon/status", target: "/v1/vllm/models" },
-        { source: "/v1/daemon/status", target: "/v1/artifact/sign" }
+        { source: "/v1/daemon/status", target: "/v1/artifact/sign" },
+        { source: "/v1/daemon/status", target: "/v1/tasks" },
+        { source: "/v1/daemon/status", target: "/v1/jobs" },
+        { source: "/v1/daemon/status", target: "/v1/config" }
       ]
     };
     const svg = d3.select('#graph');
@@ -74,16 +80,19 @@
 	  .text(d => d.label);
 
 	const tooltip = d3.select('#tooltip');
-	const mockData = {
-	  '/v1/daemon/status': '{"status":"running"}',
-	  '/v1/daemon/info': '{"info":"Daemon info placeholder"}',
-	  '/v1/health': '{"status":"healthy"}',
-	  '/v1/version': '{"version":"1.0.0"}',
-	  '/v1/agents': '{"agents":["agent1","agent2"]}',
-	  '/v1/ollama/models': '{"models":["llama2","mistral","phi","gemma","dolphin-mixtral","starcoder"]}',
-	  '/v1/vllm/models': '{"models":["vllm-phi","vllm-llama","vllm-mistral","vllm-mixtral"]}',
-	  '/v1/artifact/sign': '{"status":"signed"}'
-	};
+	    const mockData = {
+      '/v1/daemon/status': '{"status":"running"}',
+      '/v1/daemon/info': '{"info":"Daemon info placeholder"}',
+      '/v1/health': '{"status":"healthy"}',
+      '/v1/version': '{"version":"1.0.0"}',
+      '/v1/agents': '{"agents":["agent1","agent2"]}',
+      '/v1/ollama/models': '{"models":["llama2","mistral","phi","gemma","dolphin-mixtral","starcoder"]}',
+      '/v1/vllm/models': '{"models":["vllm-phi","vllm-llama","vllm-mistral","vllm-mixtral"]}',
+      '/v1/artifact/sign': '{"status":"signed"}',
+      '/v1/tasks': '{"tasks":["task1","task2"]}',
+      '/v1/jobs': '{"jobs":["jobA","jobB"]}',
+      '/v1/config': '{"setting":"value"}'
+    };
 
 	node.on('click', async (event, d) => {
 	  tooltip.style('opacity', 0);
