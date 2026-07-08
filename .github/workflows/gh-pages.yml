@@ -3,12 +3,23 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
+      - 'agentos-frontend/**'
+      - '.github/workflows/gh-pages.yml'
+  workflow_dispatch:
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Build frontend to docs/
+        run: |
+          mkdir -p docs
+          cp agentos-frontend/pages/index.html docs/
+          cp -r agentos-frontend/css docs/
+          cp -r agentos-frontend/js docs/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

@@ -31,7 +31,9 @@
     "windows:test": "cmake --build build --target test && ctest --test-dir build -C Release",
     "windows:verify": "node .agentos/runtime/verifyWindows.mjs",
     "apfortran:verify": "node .agentos/runtime/apfortranVerify.mjs",
-    "swarm": "node math-engine/swarm/orchestrator.mjs"
+    "swarm": "node math-engine/swarm/orchestrator.mjs",
+    "build:frontend": "node -e \"const fs=require('fs'),p=require('path');const cp=(s,d)=>{fs.mkdirSync(p.dirname(d),{recursive:true});fs.copyFileSync(s,d)};const cpr=(s,d)=>{if(fs.statSync(s).isDirectory()){fs.mkdirSync(d,{recursive:true});for(const f of fs.readdirSync(s))cpr(p.join(s,f),p.join(d,f))}else cp(s,d)};fs.mkdirSync('docs',{recursive:true});cp('agentos-frontend/pages/index.html','docs/index.html');cpr('agentos-frontend/css','docs/css');cpr('agentos-frontend/js','docs/js');console.log('Frontend built to docs/')\"",
+    "deploy:pages": "npm run build:frontend && echo 'Push to main to trigger GitHub Pages deploy'"
   },
   "keywords": [
     "agent-native",
