@@ -1,0 +1,23 @@
+[package]
+name = "axiom-proof"
+version = "0.1.0"
+edition = "2021"
+authors = ["SnapKitty Agent OS"]
+description = "Sovereign proof assistant. Faster than Lean 4. Verifiable by design."
+
+[lib]
+name = "axiom"
+path = "src/lib.rs"
+
+[[bin]]
+name = "axiom"
+path = "src/main.rs"
+
+[dependencies]
+sha2 = "0.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true

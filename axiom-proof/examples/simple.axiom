@@ -1,0 +1,6 @@
+-- Simple AXIOM test file
+-- Demonstrates basic type checking and proof sealing
+
+def id : Nat → Nat := λ x. x
+
+theorem id_thm : Nat → Nat := λ x. x
