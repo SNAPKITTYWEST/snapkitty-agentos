@@ -4,7 +4,13 @@
     "mem_swarm_bucket_np_registry",
     "mem_swarm_bucket_np_1",
     "mem_swarm_bucket_np_2",
-    "mem_swarm_bucket_p_3"
+    "mem_swarm_bucket_p_3",
+    "mem_skill1_enumeration",
+    "mem_skill2_isomorphism",
+    "mem_skill3_symmetry",
+    "mem_skill4_hadamard",
+    "mem_skill5_probabilistic",
+    "mem_skill6_circuits"
   ],
   "indexes": [
     "file",
