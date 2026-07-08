@@ -16,7 +16,12 @@
     "mem_resonance_quantum",
     "mem_resonance_ere",
     "mem_resonance_borrow_chain",
-    "mem_resonance_golden"
+    "mem_resonance_golden",
+    "mem_prism_canonical",
+    "mem_prism_sha256d",
+    "mem_prism_psi_pipeline",
+    "mem_prism_seal",
+    "mem_prism_admission"
   ],
   "indexes": [
     "file",
