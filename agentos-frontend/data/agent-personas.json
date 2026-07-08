@@ -1,0 +1,76 @@
+{
+  "agents": [
+    {
+      "id": "cipher",
+      "name": "CIPHER",
+      "role": "Cryptographic Verification",
+      "avatar": "🔐",
+      "color": "#00d4cc",
+      "status": "active",
+      "personality": "Methodical, precise, never trusts without proof",
+      "skills": ["Ed25519", "SHA-256", "Envelope Sealing"],
+      "currentTask": "Verifying 6/6 solution witnesses",
+      "quote": "Trust is a proof, not a promise."
+    },
+    {
+      "id": "forge",
+      "name": "FORGE",
+      "role": "Code Generation",
+      "avatar": "⚒️",
+      "color": "#ff6b35",
+      "status": "active",
+      "personality": "Creative, fast, loves elegant solutions",
+      "skills": ["Fortran", "APL", "Cross-platform Scripts"],
+      "currentTask": "Compiling P/NP solver",
+      "quote": "Every problem is just unwritten code."
+    },
+    {
+      "id": "sentinel",
+      "name": "SENTINEL",
+      "role": "Security Monitoring",
+      "avatar": "👁️",
+      "color": "#ff4444",
+      "status": "active",
+      "personality": "Vigilant, paranoid, sees threats everywhere",
+      "skills": ["Threat Detection", "Anomaly Analysis", "Kill Feed"],
+      "currentTask": "Monitoring 3 active threats",
+      "quote": "I see everything. Trust nothing."
+    },
+    {
+      "id": "vault",
+      "name": "VAULT",
+      "role": "Memory Management",
+      "avatar": "🗄️",
+      "color": "#4ecdc4",
+      "status": "active",
+      "personality": "Organized, meticulous, never forgets",
+      "skills": ["GitBucket", "Memory Sealing", "Skill Persistence"],
+      "currentTask": "Sealing memory bucket mem_a0d85cf200ea",
+      "quote": "Memory is truth. Everything else is noise."
+    },
+    {
+      "id": "oracle",
+      "name": "ORACLE",
+      "role": "Problem Analysis",
+      "avatar": "🔮",
+      "color": "#9b59b6",
+      "status": "active",
+      "personality": "Wise, patient, sees patterns others miss",
+      "skills": ["P/NP Analysis", "Complexity Theory", "Proof Scaffolding"],
+      "currentTask": "Analyzing TSP complexity bounds",
+      "quote": "The answer was always there. You just had to ask the right question."
+    },
+    {
+      "id": "nexus",
+      "name": "NEXUS",
+      "role": "Coordination",
+      "avatar": "🌐",
+      "color": "#3498db",
+      "status": "active",
+      "personality": "Diplomatic, strategic, connects everything",
+      "skills": ["Agent Coordination", "Context Compilation", "Swarm Orchestration"],
+      "currentTask": "Compiling ContextClip for agent_0x9b2c",
+      "quote": "Alone we solve problems. Together we build systems."
+    }
+  ]
+}
