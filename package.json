@@ -30,7 +30,8 @@
     "windows:build": "cmake -S . -B build -G \"Visual Studio 17 2022\" -A x64 && npm run build:windows",
     "windows:test": "cmake --build build --target test && ctest --test-dir build -C Release",
     "windows:verify": "node .agentos/runtime/verifyWindows.mjs",
-    "apfortran:verify": "node .agentos/runtime/apfortranVerify.mjs"
+    "apfortran:verify": "node .agentos/runtime/apfortranVerify.mjs",
+    "swarm": "node math-engine/swarm/orchestrator.mjs"
   },
   "keywords": [
     "agent-native",
