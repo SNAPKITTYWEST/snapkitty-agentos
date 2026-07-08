@@ -1,0 +1,21 @@
+{
+  "name": "@snapkittywest/resonance-math",
+  "version": "1.0.0",
+  "description": "Mathematical foundation for SnapKitty Agent OS: entropy, thermal windows, quantum monad, ERE verification, verdict algebra",
+  "type": "module",
+  "main": "lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./entropy": "./lib/entropy.mjs",
+    "./thermal": "./lib/thermal.mjs",
+    "./quantum": "./lib/quantum.mjs",
+    "./ere": "./lib/ere.mjs",
+    "./borrow-chain": "./lib/borrow-chain.mjs"
+  },
+  "scripts": {
+    "test": "node tests/test_all.mjs"
+  },
+  "keywords": ["mathematics", "entropy", "quantum", "thermal", "verification", "formal"],
+  "license": "Sovereign Source License v1.0",
+  "author": "SnapKitty Agent OS"
+}

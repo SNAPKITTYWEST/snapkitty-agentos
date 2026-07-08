@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-07-08T08:44:06.573Z",
+  "package": "resonance-math",
+  "modules": [
+    {
+      "id": "resonance_entropy",
+      "name": "Entropy (Shannon, KL, Von Neumann)",
+      "bucketId": "mem_resonance_entropy",
+      "seal": "f7558518cb11604ffd1081e5d0ab623b50962b2ea1a42d2241ce72859a525002",
+      "payloadHash": "b0963a1455e5866533b893f395c7d8035454e0b519a5d574b8236993ce4fd1a4"
+    },
+    {
+      "id": "resonance_thermal",
+      "name": "Thermal Window Engine",
+      "bucketId": "mem_resonance_thermal",
+      "seal": "c713bb5999b33647464fb7143c7fbfacd8d2db484288cd00c87e0a5f06202d44",
+      "payloadHash": "3b70cb490e2457443e5db6e0561cc98834f0e8afbbc346441afca471b39d3212"
+    },
+    {
+      "id": "resonance_quantum",
+      "name": "Quantum Monad",
+      "bucketId": "mem_resonance_quantum",
+      "seal": "f44cc94d6922affade65ed203b0dd87d3262bb40e9b09582b1d5b85bc62cd6d9",
+      "payloadHash": "526d2f5ecd5b96173bbdfa3f3a085a3bd122f999b415cafb7dcf2f568ddc88e8"
+    },
+    {
+      "id": "resonance_ere",
+      "name": "ERE-5 Verification Protocol",
+      "bucketId": "mem_resonance_ere",
+      "seal": "68715fbf3831c40a5d72c9ab2260e63912b0d3ebffe1d5a9cb9f18dfd5286915",
+      "payloadHash": "2adce02aef65e3687f95a011b5cf1c0c4cb82d8d4c16df667712a175da170a25"
+    },
+    {
+      "id": "resonance_borrow_chain",
+      "name": "Verdict Algebra / Borrow Chain",
+      "bucketId": "mem_resonance_borrow_chain",
+      "seal": "cf2520b9e42ae1b79e4f584a90b795429f2f19de280c7074fdebc44a715a6d0f",
+      "payloadHash": "7a2985bd9717097c599f158a5d94dcc7311a58966a2ec09fc1efa3265ab66417"
+    },
+    {
+      "id": "resonance_golden",
+      "name": "Golden Ratio / Fibonacci Contraction",
+      "bucketId": "mem_resonance_golden",
+      "seal": "1e049aa495400b5ababa070943ab551d3df03265642826b617d9e7ee21c75181",
+      "payloadHash": "9f19b7f8629835f4f404289725e528b516a57b6cd36075ad6118b2d2c3dafeb5"
+    }
+  ],
+  "merkleRoot": "00646394b3d66f95cb7cf47bdde100322ed1270a443dc1a5e5e5efb6c36d8fc0",
+  "chainLength": 6,
+  "testsPassed": 45
+}

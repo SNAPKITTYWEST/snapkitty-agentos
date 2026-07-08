@@ -10,7 +10,13 @@
     "mem_skill3_symmetry",
     "mem_skill4_hadamard",
     "mem_skill5_probabilistic",
-    "mem_skill6_circuits"
+    "mem_skill6_circuits",
+    "mem_resonance_entropy",
+    "mem_resonance_thermal",
+    "mem_resonance_quantum",
+    "mem_resonance_ere",
+    "mem_resonance_borrow_chain",
+    "mem_resonance_golden"
   ],
   "indexes": [
     "file",

@@ -1,0 +1,110 @@
+-- AXIOM: Golden Ratio and Fibonacci Contraction
+-- Ported from SNAPKITTY-PROOFS/lean4/PhinaryContraction.lean
+
+import Mathlib.Data.Real.Sqrt
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+namespace GoldenRatio
+
+-- The golden ratio: φ = (1 + √5) / 2
+noncomputable def phi : ℝ := (1 + Real.sqrt 5) / 2
+
+-- Theorem: φ > 1
+theorem phi_gt_one : phi > 1 := by
+  unfold phi
+  have h : Real.sqrt 5 > 1 := by
+    apply Real.lt_sqrt.mpr
+    norm_num
+  linarith
+
+-- Theorem: φ² = φ + 1
+theorem phi_sq_eq_phi_add_one : phi ^ 2 = phi + 1 := by
+  unfold phi
+  field_simp
+  ring_nf
+  rw [Real.sq_sqrt] <;> norm_num
+
+-- Theorem: φ⁻¹ = φ - 1
+theorem phi_inv_eq_phi_sub_one : phi⁻¹ = phi - 1 := by
+  unfold phi
+  field_simp
+  ring_nf
+  rw [Real.sq_sqrt] <;> norm_num
+  <;> linarith [Real.sqrt_nonneg 5]
+
+-- Theorem: √5 is irrational
+theorem sqrt_five_irrational : Irrational (Real.sqrt 5) := by
+  apply Nat.Prime.irrational_sqrt
+  <;> norm_num
+
+-- Theorem: φ is irrational
+theorem phi_irrational : Irrational phi := by
+  unfold phi
+  intro ⟨q, hq⟩
+  have h : Real.sqrt 5 = 2 * q - 1 := by
+    field_simp at hq
+    linarith
+  exact sqrt_five_irrational ⟨2 * q - 1, h.symm⟩
+
+-- Fibonacci sequence
+def fibSeq : Nat → Nat
+  | 0 => 0
+  | 1 => 1
+  | n + 2 => fibSeq (n + 1) + fibSeq n
+
+-- Theorem: F(53) % 107 = 8 (the Ahmad sovereign seal)
+theorem ahmad_sovereign_seal : fibSeq 53 % 107 = 8 := by
+  unfold fibSeq
+  repeat' rw [fibSeq]
+  <;> norm_num
+  <;> decide
+
+-- Theorem: F(6) = 8
+theorem fib_six_eq_eight : fibSeq 6 = 8 := by
+  unfold fibSeq
+  repeat' rw [fibSeq]
+  <;> norm_num
+  <;> decide
+
+-- Theorem: F(12) = 144 = 108 + 36 (dimension overshoot)
+theorem fib_twelve_dimension_overshoot : fibSeq 12 = 108 + 36 := by
+  unfold fibSeq
+  repeat' rw [fibSeq]
+  <;> norm_num
+  <;> decide
+
+-- Zeckendorf representation: 64 = F(10) + F(6) + F(2)
+theorem zeckendorf_64 : 64 = fibSeq 10 + fibSeq 6 + fibSeq 2 := by
+  unfold fibSeq
+  repeat' rw [fibSeq]
+  <;> norm_num
+  <;> decide
+
+-- Phinary contraction: geometric convergence R₀ / φⁿ → 0
+theorem phinary_contraction (R0 : ℝ) :
+  ∀ ε > 0, ∃ N, ∀ n ≥ N, |R0 / phi ^ n| < ε := by
+  intro ε hε
+  have hphi : phi > 1 := phi_gt_one
+  -- Standard result: geometric sequence with ratio > 1 converges to 0
+  sorry  -- Requires archimedean property and log estimates
+
+-- The Goldilocks theorem: q★ = 1/φ is the contractive fixed point
+def qStar : ℝ := phi⁻¹
+
+-- Theorem: q★ > 0 (not collapse)
+theorem goldilocks_not_collapse : qStar > 0 := by
+  unfold qStar
+  exact inv_pos.mpr (by linarith [phi_gt_one])
+
+-- Theorem: q★ < 1 (contractive)
+theorem goldilocks_contractive : qStar < 1 := by
+  unfold qStar
+  have h : phi > 1 := phi_gt_one
+  exact (one_lt_inv (by linarith) h).mpr (by linarith)
+
+-- Theorem: q★ = φ - 1 (self-referential)
+theorem goldilocks_self_referential : qStar = phi - 1 := by
+  unfold qStar
+  exact phi_inv_eq_phi_sub_one
+
+end GoldenRatio

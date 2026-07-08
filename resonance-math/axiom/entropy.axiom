@@ -1,0 +1,70 @@
+-- AXIOM: Information Theory Formalization
+-- Shannon entropy, KL divergence, Von Neumann entropy
+
+-- Shannon entropy: H(X) = -∑ p(x) log₂ p(x)
+def shannonEntropy (probs : List ℝ) : ℝ :=
+  -(probs.foldl (fun acc p => acc + p * Real.log p / Real.log 2) 0)
+
+-- Theorem: Shannon entropy is non-negative
+theorem shannon_nonneg (probs : List ℝ) (hsum : probs.sum = 1) (hpos : ∀ p ∈ probs, 0 ≤ p) :
+  0 ≤ shannonEntropy probs := by
+  unfold shannonEntropy
+  sorry  -- Requires convexity of -x log x
+
+-- Theorem: Shannon entropy is maximized for uniform distribution
+theorem shannon_max_uniform (n : Nat) (hn : n > 0) :
+  shannonEntropy (List.replicate n (1 / n)) = Real.log n / Real.log 2 := by
+  unfold shannonEntropy
+  sorry  -- Requires calculus
+
+-- KL divergence: D_KL(P || Q) = ∑ P(x) log₂(P(x)/Q(x))
+def klDivergence (p q : List ℝ) : ℝ :=
+  (p.zip q).foldl (fun acc (pi, qi) =>
+    if pi > 0 then acc + pi * Real.log (pi / max qi 1e-10) / Real.log 2
+    else acc
+  ) 0
+
+-- Theorem: KL divergence is non-negative (Gibbs' inequality)
+theorem kl_nonneg (p q : List ℝ) (hsum_p : p.sum = 1) (hsum_q : q.sum = 1)
+    (hpos_p : ∀ pi ∈ p, 0 ≤ pi) (hpos_q : ∀ qi ∈ q, 0 ≤ qi) :
+  0 ≤ klDivergence p q := by
+  unfold klDivergence
+  sorry  -- Requires Jensen's inequality
+
+-- Theorem: KL divergence is zero iff P = Q
+theorem kl_zero_iff_eq (p q : List ℝ) (hsum_p : p.sum = 1) (hsum_q : q.sum = 1)
+    (hpos_p : ∀ pi ∈ p, 0 ≤ pi) (hpos_q : ∀ qi ∈ q, 0 ≤ qi) :
+  klDivergence p q = 0 ↔ p = q := by
+  sorry  -- Requires strict convexity
+
+-- Cross-entropy: H(P,Q) = -∑ P(x) log₂ Q(x)
+def crossEntropy (p q : List ℝ) : ℝ :=
+  -(p.zip q).foldl (fun acc (pi, qi) =>
+    if pi > 0 then acc + pi * Real.log (max qi 1e-10) / Real.log 2
+    else acc
+  ) 0
+
+-- Theorem: Cross-entropy = Shannon entropy + KL divergence
+theorem cross_entropy_decomposition (p q : List ℝ) :
+  crossEntropy p q = shannonEntropy p + klDivergence p q := by
+  unfold crossEntropy shannonEntropy klDivergence
+  sorry  -- Algebraic manipulation
+
+-- Von Neumann entropy: S(ρ) = -Tr(ρ log ρ) = -∑ λᵢ log λᵢ
+def vonNeumannEntropy (eigenvalues : List ℝ) : ℝ :=
+  shannonEntropy (eigenvalues.map Real.abs)
+
+-- Theorem: Von Neumann entropy reduces to Shannon for diagonal density matrices
+theorem von_neumann_reduces_to_shannon (eigenvalues : List ℝ)
+    (hpos : ∀ λ ∈ eigenvalues, 0 ≤ λ) (hsum : eigenvalues.sum = 1) :
+  vonNeumannEntropy eigenvalues = shannonEntropy eigenvalues := by
+  unfold vonNeumannEntropy
+  have h : eigenvalues.map Real.abs = eigenvalues := by
+    apply List.map_congr
+    · intro x hx
+      exact Real.abs_of_nonneg (hpos x hx)
+  rw [h]
+
+-- Entropy bound check (from quantum.mjs)
+def isWithinEntropyBound (amplitudes : List ℝ) (maxEntropy : ℝ := 6.0) : Prop :=
+  shannonEntropy amplitudes ≤ maxEntropy

@@ -1,0 +1,78 @@
+-- AXIOM: Thermal Window Engine Formalization
+-- Proves the invariant: lo(f) < hi(f) for all f ∈ [0,1]
+
+-- Constants from thermal.mjs
+def LO_FACTOR : Nat := 16383
+def HI_FACTOR : Nat := 16384
+def UINT16_MAX : Nat := 65535
+
+-- Thermal window bounds
+def thermalLo (f : ℝ) : Nat := Nat.floor (f * LO_FACTOR)
+def thermalHi (f : ℝ) : Nat := UINT16_MAX - Nat.floor (f * HI_FACTOR)
+
+-- Theorem: lo(f) ≤ 16383 for all f ∈ [0,1]
+theorem thermal_lo_upper_bound (f : ℝ) (hf : 0 ≤ f ∧ f ≤ 1) :
+  thermalLo f ≤ 16383 := by
+  unfold thermalLo
+  have h : f * 16383 ≤ 16383 := by
+    nlinarith
+  exact Nat.floor_le h
+
+-- Theorem: hi(f) ≥ 49151 for all f ∈ [0,1]
+theorem thermal_hi_lower_bound (f : ℝ) (hf : 0 ≤ f ∧ f ≤ 1) :
+  thermalHi f ≥ 49151 := by
+  unfold thermalHi
+  have h : f * 16384 ≤ 16384 := by
+    nlinarith
+  have h2 : Nat.floor (f * 16384) ≤ 16384 := Nat.floor_le h
+  omega
+
+-- Theorem: lo(f) < hi(f) for all f ∈ [0,1]
+theorem thermal_window_valid (f : ℝ) (hf : 0 ≤ f ∧ f ≤ 1) :
+  thermalLo f < thermalHi f := by
+  have h1 := thermal_lo_upper_bound f hf
+  have h2 := thermal_hi_lower_bound f hf
+  omega
+
+-- Friction EMA: f_{n+1} = α·score + (1-α)·current where α = 0.2
+def FRICTION_ALPHA : ℝ := 0.2
+
+def frictionEMA (current score : ℝ) : ℝ :=
+  FRICTION_ALPHA * score + (1 - FRICTION_ALPHA) * current
+
+-- Theorem: EMA preserves [0,1] bounds
+theorem ema_preserves_bounds (current score : ℝ)
+    (hc : 0 ≤ current ∧ current ≤ 1)
+    (hs : 0 ≤ score ∧ score ≤ 1) :
+  0 ≤ frictionEMA current score ∧ frictionEMA current score ≤ 1 := by
+  unfold frictionEMA
+  constructor
+  · nlinarith
+  · nlinarith
+
+-- Thermal mode classification
+inductive ThermalMode : Type where
+  | Cool : ThermalMode
+  | Warm : ThermalMode
+  | Hot : ThermalMode
+
+def thermalMode (f : ℝ) : ThermalMode :=
+  if f < 0.33 then ThermalMode.Cool
+  else if f < 0.66 then ThermalMode.Warm
+  else ThermalMode.Hot
+
+-- Sample count: 2 + round(f * 6)
+def sampleCount (f : ℝ) : Nat :=
+  2 + Nat.round (f * 6)
+
+-- Theorem: sample count is in [2, 8]
+theorem sample_count_bounds (f : ℝ) (hf : 0 ≤ f ∧ f ≤ 1) :
+  2 ≤ sampleCount f ∧ sampleCount f ≤ 8 := by
+  unfold sampleCount
+  have h : 0 ≤ f * 6 ∧ f * 6 ≤ 6 := by
+    constructor <;> nlinarith
+  have h2 : 0 ≤ Nat.round (f * 6) ∧ Nat.round (f * 6) ≤ 6 := by
+    constructor
+    · exact Nat.round_nonneg (f * 6)
+    · exact Nat.round_le (f * 6) (by norm_num) (by nlinarith)
+  omega
