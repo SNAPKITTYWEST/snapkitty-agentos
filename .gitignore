@@ -24,3 +24,6 @@ cmake_install.cmake
 .next/
 out/
 target/
+*.mod
+*.exe
+*.o
