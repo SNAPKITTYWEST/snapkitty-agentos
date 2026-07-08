@@ -1,0 +1,46 @@
+name: Deploy Collatz Visualizer to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'collatz-verification/frontend/**'
+      - '.github/workflows/collatz-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "collatz-pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build Collatz frontend
+        run: |
+          mkdir -p _site/collatz
+          cp collatz-verification/frontend/index.html _site/collatz/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
