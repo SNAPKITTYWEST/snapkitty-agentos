@@ -1,0 +1,53 @@
+-- AXIOM: Graph Isomorphism Formalization
+-- Formal definition of graph isomorphism and canonical forms
+
+-- Graph as adjacency relation
+def Graph (n : Nat) : Type := Fin n → Fin n → Bool
+
+-- Graph isomorphism
+def Iso (n : Nat) (g1 g2 : Graph n) : Type :=
+  Σ (perm : Fin n → Fin n),
+    (∀ i j, g1 i j = g2 (perm i) (perm j)) ×
+    Bijective perm
+
+-- Bijective function
+def Bijective (f : Fin n → Fin n) : Prop :=
+  (∀ i j, f i = f j → i = j) ×  -- Injective
+  (∀ j, ∃ i, f i = j)           -- Surjective
+
+-- Canonical form: unique representative of isomorphism class
+def CanonicalForm (n : Nat) (g : Graph n) : Graph n :=
+  min { g' | ∃ perm, Iso n g g' via perm }
+
+-- Theorem: Canonical form is unique per isomorphism class
+theorem canonical_unique (n : Nat) (g1 g2 : Graph n) :
+  Iso n g1 g2 → CanonicalForm n g1 = CanonicalForm n g2 :=
+  sorry
+
+-- Theorem: Isomorphism is equivalence relation
+theorem iso_equivalence (n : Nat) :
+  (∀ g, Iso n g g) ×                        -- Reflexive
+  (∀ g1 g2, Iso n g1 g2 → Iso n g2 g1) ×   -- Symmetric
+  (∀ g1 g2 g3, Iso n g1 g2 → Iso n g2 g3 → Iso n g1 g3) :=
+  sorry
+
+-- Graph automorphism group
+def AutomorphismGroup (n : Nat) (g : Graph n) : Type :=
+  { perm : Fin n → Fin n // Iso n g g via perm }
+
+-- Theorem: Two graphs are isomorphic iff their canonical forms are equal
+theorem iso_iff_canonical_eq (n : Nat) (g1 g2 : Graph n) :
+  Iso n g1 g2 ↔ CanonicalForm n g1 = CanonicalForm n g2 :=
+  sorry
+
+-- Complexity: Graph isomorphism is in NP
+theorem gi_in_np (n : Nat) (g1 g2 : Graph n) :
+  ∃ (cert : List Nat), 
+    (∀ perm, verify_iso g1 g2 perm) ∧
+    verify_time cert ≤ n^2 :=
+  sorry  -- Certificate is the permutation
+
+-- Open problem: Is GI in P?
+theorem gi_complexity : 
+  GI ∈ P ∨ GI ∈ NP \ P :=
+  sorry  -- Major open problem

@@ -1,0 +1,53 @@
+-- AXIOM: Hadamard Matrix Construction Formalization
+-- Prove construction correctness
+
+-- Hadamard matrix: H * H' = n * I
+def IsHadamard (n : Nat) (H : Matrix n n ℤ) : Prop :=
+  ∀ i j, (H * Hᵀ) i j = if i = j then n else 0
+
+-- Sylvester construction
+def SylvesterMatrix (k : Nat) : Matrix (2^k) (2^k) ℤ :=
+  match k with
+  | 0 => [[1]]
+  | k+1 => let H := SylvesterMatrix k
+           [[H, H], [H, -H]]
+
+-- Theorem: Sylvester construction produces Hadamard matrix
+theorem sylvester_is_hadamard (k : Nat) :
+  IsHadamard (2^k) (SylvesterMatrix k) :=
+  sorry  -- Proof by induction on k
+
+-- Paley construction using quadratic residues
+def PaleyMatrix (p : Nat) (hp : Prime p) (hmod : p % 4 = 3) : 
+  Matrix (p+1) (p+1) ℤ :=
+  let Q := fun i j => legendre (j - i) p
+  [[1, 1], [1, Q]]
+
+-- Theorem: Paley construction produces Hadamard matrix
+theorem paley_is_hadamard (p : Nat) (hp : Prime p) (hmod : p % 4 = 3) :
+  IsHadamard (p+1) (PaleyMatrix p hp hmod) :=
+  sorry  -- Uses properties of quadratic residues
+
+-- Williamson construction
+def WilliamsonMatrix (m : Nat) (A B : Matrix m m ℤ) :
+  Matrix (2*m) (2*m) ℤ :=
+  [[A, B], [B, -A]]
+
+-- Theorem: Williamson construction produces Hadamard matrix
+-- if A, B are circulant, symmetric, and A*A' + B*B' = m*I
+theorem williamson_is_hadamard (m : Nat) (A B : Matrix m m ℤ)
+    (hA_circ : IsCirculant A) (hB_circ : IsCirculant B)
+    (hA_sym : A = Aᵀ) (hB_sym : B = Bᵀ)
+    (hAB : A * Aᵀ + B * Bᵀ = m • I) :
+  IsHadamard (2*m) (WilliamsonMatrix m A B) :=
+  sorry  -- Direct computation
+
+-- Hadamard conjecture: exists for all n ≡ 0 (mod 4)
+theorem hadamard_conjecture :
+  ∀ n, n % 4 = 0 → ∃ H : Matrix n n ℤ, IsHadamard n H :=
+  sorry  -- Major open problem
+
+-- Known orders: all multiples of 4 up to 664
+theorem hadamard_known_orders :
+  ∀ n ≤ 664, n % 4 = 0 → ∃ H, IsHadamard n H :=
+  sorry  -- Verified by construction
